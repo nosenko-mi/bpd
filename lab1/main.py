@@ -40,18 +40,20 @@ def encode_file(filename, chunk_size):
     with open(filename, 'r') as file:
         text = file.read()
 
-    chunks = split_string_chunks(text, chunk_size=chunk_size)
+    binary_code = ascii_to_binary(text)
+    chunks = split_string_chunks(binary_code, chunk_size=chunk_size)
 
-    result_text = ''
+    result = []
     binary_code = ''
     hamming_code = ''
     for c in chunks:
-        binary_code = ascii_to_binary(c)
-        hamming_code = binary_to_hamming(binary_code)
-        result_text.join([hamming_code, " "])
+        hamming_code = binary_to_hamming(c)
+        result.append(hamming_code)
 
+    result_text = " ".join(result)
+    print(result_text)
     with open(filename + ".encoded", 'w') as encoded_file:
-        encoded_file.write(hamming_code)
+        encoded_file.write(result_text)
 
 
 # https://www.geeksforgeeks.org/hamming-code-implementation-in-python/
@@ -157,7 +159,7 @@ def main():
     # binary = ascii_to_binary(user_input)
     # print(binary)
     # print(binary_to_hamming("01101110011011110111001101100101"))
-    encode_file('input_text', 32)
+    encode_file('input_text', 8)
 
 
 if __name__ == "__main__":
