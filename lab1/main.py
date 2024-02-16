@@ -13,10 +13,10 @@ def binary_to_hamming(binary_code):
     hamming_code = ""
     
     m = len(binary_code)
-    r = calcRedundantBits(m)
+    r = calc_redundant_bits(m)
 
-    arr = posRedundantBits(binary_code, r)
-    arr = calcParityBits(arr, r)
+    arr = pos_redundant_bits(binary_code, r)
+    arr = calc_parity_bits(arr, r)
     
     return arr
 
@@ -57,7 +57,7 @@ def encode_file(filename, chunk_size):
 # https://www.geeksforgeeks.org/hamming-code-implementation-in-python/
         
 
-def calcRedundantBits(m):
+def calc_redundant_bits(m):
 
     # Use the formula 2 ^ r >= m + r + 1
     # to calculate the no of redundant bits.
@@ -69,7 +69,7 @@ def calcRedundantBits(m):
             return i
 
 
-def posRedundantBits(data, r):
+def pos_redundant_bits(data, r):
 
     # Redundancy bits are placed at the positions
     # which correspond to the power of 2.
@@ -93,7 +93,7 @@ def posRedundantBits(data, r):
     return res[::-1]
 
 
-def calcParityBits(arr, r):
+def calc_parity_bits(arr, r):
     n = len(arr)
 
     # For finding rth parity bit, iterate over
@@ -115,7 +115,7 @@ def calcParityBits(arr, r):
     return arr
 
 
-def detectError(arr, nr):
+def detect_error(arr, nr):
     n = len(arr)
     res = 0
 
@@ -133,6 +133,8 @@ def detectError(arr, nr):
 
     # Convert binary to decimal
     return int(str(res), 2)
+
+
 
 
 def main():
