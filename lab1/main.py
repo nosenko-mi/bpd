@@ -135,6 +135,20 @@ def detect_error(arr, nr):
     return int(str(res), 2)
 
 
+def restore_data(arr:list)->list:
+    m = len(arr)
+    r = calc_redundant_bits(m)
+    error_index = detect_error(arr, r)
+    true_index = len(arr)-error_index
+    if (error_index == 0):
+        return
+
+    if (arr[true_index] == '0'):
+        arr[true_index] = '1'
+    else:
+        arr[true_index] = '0'
+
+    return arr
 
 
 def main():
