@@ -1,1 +1,4 @@
 .venv
+/lab2/__pycache__
+/lab2/*
+!/lab2/main.py
