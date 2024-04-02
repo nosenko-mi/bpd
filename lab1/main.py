@@ -21,7 +21,7 @@ def binary_to_hamming(binary_code):
     return arr
 
 
-def split_string_chunks(text, chunk_size):
+def split_string_chunks(text: str, chunk_size: int):
   chunks = []
   for i in range(0, len(text), chunk_size):
     chunks.append(text[i:i + chunk_size])
@@ -32,7 +32,7 @@ def is_correct_chunk_size(size)->bool:
     return ((size & (size-1) == 0) and size != 0)
 
 
-def encode_file(filename, chunk_size):
+def encode_file(filename: str, chunk_size: int):
     if (not is_correct_chunk_size(chunk_size)):
         print('Chunk size is not power of 2')
         return
@@ -41,7 +41,11 @@ def encode_file(filename, chunk_size):
         text = file.read()
 
     binary_code = ascii_to_binary(text)
-    chunks = split_string_chunks(binary_code, chunk_size=chunk_size)
+    r = calc_redundant_bits(len(binary_code))
+
+    chunks = [binary_code]
+    if (len(binary_code) + r > chunk_size):
+        chunks = split_string_chunks(binary_code, chunk_size=chunk_size-r)       
 
     result = []
     binary_code = ''
@@ -143,23 +147,21 @@ def restore_data(arr:list)->list:
     error_index = detect_error(arr, r)
     true_index = len(arr)-error_index
     if (error_index == 0):
-        return
+        return arr
 
     if (arr[true_index] == '0'):
         arr[true_index] = '1'
     else:
         arr[true_index] = '0'
-
+    print(f'error in position: {error_index}')
     return arr
 
 
 def main():
-    # user_input = input("Enter string to encode: ")
-
-    # binary = ascii_to_binary(user_input)
-    # print(binary)
-    # print(binary_to_hamming("01101110011011110111001101100101"))
-    encode_file('input_text', 8)
+    # original = "01101101001101111011100011010010100100"
+    # restored = ''.join(restore_data(list(original)))
+    # print(f'original: {original}\nrestored: {restored}')
+    encoded = encode_file('input_text', 64)
 
 
 if __name__ == "__main__":
